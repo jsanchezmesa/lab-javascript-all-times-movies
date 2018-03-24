@@ -113,15 +113,8 @@ function howManyMovies(moviesArray) {
 function orderAlphabetically(moviesArray) {
   var movies = [];
 
-  // get 20 movies
-  if (moviesArray.length < 20) {
-    movies = moviesArray.slice(0, moviesArray.length);
-  } else {
-    movies = moviesArray.slice(0, 20);
-  }
-
   // order movies
-  var ordered = movies.sort(function(a, b) {
+  var ordered = moviesArray.sort(function(a, b) {
     if (a.title.toLowerCase() < b.title.toLowerCase()) {
       return -1;
     }
@@ -133,8 +126,15 @@ function orderAlphabetically(moviesArray) {
     return 0;
   });
 
+  // get 20 movies
+  if (ordered.length < 20) {
+    movies = moviesArray.slice(0, moviesArray.length);
+  } else {
+    movies = moviesArray.slice(0, 20);
+  }  
+
   // get only title
-  var titles = ordered.map(function(e) {
+  var titles = movies.map(function(e) {
     return e.title;
   });
 
