@@ -143,18 +143,39 @@ function orderAlphabetically(moviesArray) {
 
 // Best yearly rate average
 
-/*function bestYearAvg(movieArray) {
-  
-  var moviesByYear = {};
-  
-  movieArray.forEach( function(e) {
-    var year = e.year;
-    if( year in moviesByYear ) {
-      moviesByYear.year.push(e);
+function bestYearAvg(moviesArray) {
+
+  if(moviesArray.length == 0) {
+    return;
+  }
+
+  var numYear = {};
+  var rateYear = {};
+  var avgYear = {};
+
+  moviesArray.forEach( function(e) {
+    if( rateYear[e.year] ) {
+      numYear[e.year] += 1;
+      rateYear[e.year] += parseFloat(e.rate);
+      avgYear[e.year] = parseFloat( (rateYear[e.year]/numYear[e.year]).toFixed(2) );
     } else {
-      moviesByYear.year = [];
-      moviesByYear.year.push(e);
+      rateYear[e.year] = parseFloat(e.rate);
+      numYear[e.year] = 1;
+      avgYear[e.year] = parseFloat(e.rate);
     }
   });
-  
-}*/
+
+  var year = Object.keys(avgYear).reduce( function(a,b) {
+    if( avgYear[a] === avgYear[b] ) {
+      if( b < a ) {
+        return b;
+      }
+      return a;
+    } else if( avgYear[a] > avgYear[b] ) {
+      return a;
+    }
+    return b;
+  });
+
+  return "The best year was " + year + " with an average rate of " + avgYear[year];
+}
